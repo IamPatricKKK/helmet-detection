@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Model files (optional - chỉ giữ best_model.h5)
+# Các file này có thể tạo lại khi train
+models/final_model.h5
+models/training_history.png
+models/confusion_matrix.png
+
+# Giữ lại best_model.h5 (quan trọng nhất)
+!models/best_model.h5
+
+# Dataset (quá lớn để push lên GitHub - ~35MB tổng cộng)
+dataset/
+
+# Data collection - ảnh gốc (quá lớn ~32MB)
+data_collection/*.jpg
+data_collection/*.jpeg
+data_collection/*.png
+data_collection/*.webp
+data_collection/*.JPG
+data_collection/*.JPEG
+data_collection/*.PNG
+
+# Nhưng giữ lại script và folder structure
+!data_collection/data_collection_app.py
+!data_collection/*/
+
+# Test images (nếu có)
+data_test/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+

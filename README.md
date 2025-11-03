@@ -32,30 +32,98 @@ Dự án nhận dạng và phân loại người có đội mũ bảo hiểm hay
 
 ## 📊 Dataset
 
-### Thông Tin Dataset
+Dự án hỗ trợ **2 cách xử lý dataset** đều tạo folder `dataset`: 
+- **Cách 1**: Chuẩn hóa đơn giản (nhanh, giữ nguyên ảnh gốc)
+- **Cách 2**: Xử lý với OpenCV (face detection, enhancement, chuẩn hóa 224x224)
 
+### Thu Thập Dữ Liệu
+
+Dataset được thu thập thông qua ứng dụng `data_collection_app.py`:
+- Chụp ảnh trực tiếp từ camera
+- Phân loại thủ công: có mũ / không mũ
+- Tự động lưu vào thư mục tương ứng
+
+### Dataset (Chuẩn Hóa Đơn Giản)
+
+**Đặc điểm:**
+- ✅ **Đơn giản**: Chỉ copy và tổ chức ảnh
+- ✅ **Nhanh**: Không xử lý ảnh
+- ✅ **Giữ nguyên**: Ảnh gốc không bị thay đổi
+- ⚠️ **Chưa chuẩn hóa**: Ảnh có kích thước khác nhau
+- ⚠️ **Chưa tối ưu**: Có thể chứa background không cần thiết
+
+**Thông tin:**
 - **Tổng số ảnh**: 149 ảnh
 - **Số lớp**: 2 (no_helmet, with_helmet)
 - **Định dạng**: JPG, PNG, WEBP
-- **Kích thước ảnh**: Được resize về 224x224 pixels
+- **Kích thước**: Khác nhau (giữ nguyên)
 
-### Phân Chia Dataset
+**Phân chia:**
+- Train: 103 ảnh (no_helmet: 54, with_helmet: 49)
+- Validation: 21 ảnh (no_helmet: 11, with_helmet: 10)
+- Test: 25 ảnh (no_helmet: 13, with_helmet: 12)
 
-```
-Dataset được chia theo tỷ lệ: 70% Train / 15% Validation / 15% Test
+### Dataset (Xử Lý Với OpenCV)
 
-Train:   103 ảnh
-  ├── no_helmet:    54 ảnh
-  └── with_helmet:   49 ảnh
+**Đặc điểm:**
+- ✅ **Face Detection**: Tự động detect và crop vùng face
+- ✅ **Chuẩn hóa**: Tất cả ảnh đều 224x224
+- ✅ **Tối ưu**: Tập trung vào vùng quan trọng (đầu/mũ)
+- ✅ **Enhanced**: Cải thiện contrast với CLAHE
+- ✅ **Chất lượng tốt hơn**: Lọc ảnh hợp lệ
+- ⚠️ **Chậm hơn**: Do phải xử lý từng ảnh
+- ⚠️ **Có thể mất một số ảnh**: Nếu không detect được face
 
-Validation: 21 ảnh
-  ├── no_helmet:    11 ảnh
-  └── with_helmet:   10 ảnh
+**Thông tin:**
+- **Tổng số ảnh**: ~123 ảnh (ít hơn do lọc chất lượng)
+- **Kích thước**: Đồng nhất 224x224
+- **Xử lý**: Face detection + Image enhancement
 
-Test: 25 ảnh
-  ├── no_helmet:    13 ảnh
-  └── with_helmet:   12 ảnh
-```
+**Xử lý trong Cách 2:**
+
+1. **Face Detection**:
+   - Sử dụng Haar Cascade của OpenCV
+   - Mở rộng vùng crop 30% ở trên (để bao gồm mũ)
+   - Tập trung vào vùng face + overhead
+
+2. **Image Enhancement (CLAHE)**:
+   - Cải thiện contrast và độ sáng
+   - Làm rõ chi tiết
+   - Cân bằng ánh sáng
+
+3. **Quality Check**:
+   - Lọc ảnh có kích thước tối thiểu (100x100)
+   - Kiểm tra ảnh corrupt
+
+### So Sánh 2 Cách Xử Lý
+
+| Tiêu chí | Cách 1 (Đơn giản) | Cách 2 (OpenCV) |
+|----------|-------------------|-----------------|
+| **Folder tạo** | `dataset` | `dataset` |
+| **Kích thước ảnh** | Khác nhau | Đồng nhất 224x224 |
+| **Face Detection** | ❌ Không | ✅ Có |
+| **Image Enhancement** | ❌ Không | ✅ CLAHE |
+| **Tập trung vùng quan trọng** | ❌ Toàn ảnh | ✅ Face + mũ |
+| **Tốc độ xử lý** | ⚡ Nhanh | 🐢 Chậm hơn |
+| **Chất lượng** | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Số lượng ảnh** | Tất cả (149) | Có thể ít hơn (~123) |
+
+### Khi Nào Dùng Cách Nào?
+
+**Dùng Cách 1 (Đơn giản) khi:**
+- ✅ Cần xử lý nhanh
+- ✅ Ảnh đã được crop tốt từ trước
+- ✅ Muốn giữ nguyên ảnh gốc
+- ✅ Dataset nhỏ, cần tất cả ảnh
+
+**Dùng Cách 2 (OpenCV) khi:**
+- ✅ Ảnh có nhiều background không cần thiết
+- ✅ Cần chuẩn hóa kích thước
+- ✅ Muốn tập trung vào vùng face/mũ
+- ✅ Cần chất lượng dataset tốt hơn
+- ✅ Sẵn sàng hy sinh một số ảnh không detect được face
+
+**Lưu ý:** Cả 2 cách đều tạo folder `dataset`. Nếu chạy cách thứ 2, nó sẽ ghi đè lên folder `dataset` của cách 1 (nếu có).
 
 ### Cấu Trúc Dataset
 
@@ -74,13 +142,6 @@ dataset/
 │   └── with_helmet/
 └── metadata.csv
 ```
-
-### Thu Thập Dữ Liệu
-
-Dataset được thu thập thông qua ứng dụng `data_collection_app.py`:
-- Chụp ảnh trực tiếp từ camera
-- Phân loại thủ công: có mũ / không mũ
-- Tự động lưu vào thư mục tương ứng
 
 ## 🧠 Mô Hình
 
@@ -184,17 +245,25 @@ helmet-detection/
 │   └── metadata.csv             # Metadata
 │
 ├── models/                       # Models đã train
-│   ├── best_model.h5            # Model tốt nhất
-│   ├── final_model.h5           # Model cuối cùng
-│   ├── training_history.png     # Đồ thị training
-│   └── confusion_matrix.png     # Confusion matrix
+│   ├── best_model.h5            # Model tốt nhất (QUAN TRỌNG)
+│   ├── training_history.png     # Đồ thị training (optional)
+│   └── confusion_matrix.png     # Confusion matrix (optional)
 │
-├── prepare_dataset.py           # Script xử lý dataset
-├── train_model.py              # Script training model
-├── inference.py                # Script inference/prediction
-├── view_dataset.py             # Script xem thông tin dataset
-├── requirements.txt            # Dependencies
-└── README.md                   # File này
+├── scripts/                      # Scripts được tổ chức theo chức năng
+│   ├── data_preprocessing/      # Xử lý dữ liệu
+│   │   ├── prepare_dataset.py           # Script tạo dataset (Cách 1: chuẩn hóa đơn giản)
+│   │   ├── prepare_dataset_2.py         # Script tạo dataset (Cách 2: xử lý với OpenCV)
+│   │   └── prepare_dataset_main.py      # Script menu để chọn cách xử lý
+│   ├── training/                # Training
+│   │   └── train_model.py              # Script training model
+│   ├── inference/               # Inference/Prediction
+│   │   └── inference.py                # Script inference/prediction
+│   └── utils/                   # Utilities
+│       ├── view_dataset.py              # Script xem thông tin dataset
+│       └── paths.py                     # Utility để lấy paths
+│
+├── requirements.txt             # Dependencies
+└── README.md                    # File này
 ```
 
 ## 🚀 Cài Đặt
@@ -233,28 +302,60 @@ opencv-python>=4.6.0
 
 ### 1. Chuẩn Bị Dataset
 
+#### Thu Thập Dữ Liệu
+
 Nếu bạn chưa có dataset, có thể thu thập dữ liệu bằng ứng dụng:
 
 ```bash
 python data_collection/data_collection_app.py
 ```
 
-Sau đó xử lý và tổ chức dataset:
+#### Tạo Dataset
+
+Bạn có thể chọn **Cách 1** (chuẩn hóa đơn giản) hoặc **Cách 2** (xử lý với OpenCV). Cả 2 đều tạo folder `dataset`.
+
+**Cách 1: Sử dụng menu (Khuyến nghị)**
 
 ```bash
-python prepare_dataset.py
+python scripts/data_preprocessing/prepare_dataset_main.py
 ```
 
-Script này sẽ:
+Menu sẽ hiển thị:
+- `[1]` Dataset - Chuẩn hóa đơn giản (tạo folder `dataset`)
+- `[2]` Dataset - Xử lý với OpenCV (tạo folder `dataset`)
+- `[3]` Thoát
+
+**Cách 2: Chạy trực tiếp**
+
+```bash
+# Cách 1: Chuẩn hóa đơn giản
+python scripts/data_preprocessing/prepare_dataset.py
+
+# Cách 2: Xử lý với OpenCV
+python scripts/data_preprocessing/prepare_dataset_2.py
+```
+
+**Script `prepare_dataset.py` (Cách 1):**
 - Validate các ảnh
 - Chia dataset thành train/val/test (70/15/15)
 - Chuẩn hóa tên file
-- Tạo metadata CSV
+- Copy ảnh vào cấu trúc dataset/
+- Giữ nguyên ảnh gốc
+
+**Script `prepare_dataset_2.py` (Cách 2):**
+- Face detection và crop
+- Image enhancement (CLAHE)
+- Resize về 224x224
+- Lọc ảnh chất lượng tốt
+- Chia dataset thành train/val/test (70/15/15)
+- Tất cả ảnh đều chuẩn hóa 224x224
+
+**⚠️ Lưu ý:** Cả 2 script đều tạo folder `dataset`. Nếu chạy script thứ 2, nó sẽ hỏi xác nhận trước khi ghi đè folder `dataset` hiện có (nếu có).
 
 ### 2. Xem Thông Tin Dataset
 
 ```bash
-python view_dataset.py
+python scripts/utils/view_dataset.py
 ```
 
 Script này hiển thị:
@@ -265,7 +366,7 @@ Script này hiển thị:
 ### 3. Training Model
 
 ```bash
-python train_model.py
+python scripts/training/train_model.py
 ```
 
 Quá trình training sẽ:
@@ -278,7 +379,7 @@ Quá trình training sẽ:
 ### 4. Inference/Prediction
 
 ```bash
-python inference.py
+python scripts/inference/inference.py
 ```
 
 Menu options:
@@ -293,12 +394,12 @@ Menu options:
 
 1. **Data Preparation**:
    ```bash
-   python prepare_dataset.py
+   python scripts/data_preprocessing/prepare_dataset.py
    ```
 
 2. **Training**:
    ```bash
-   python train_model.py
+   python scripts/training/train_model.py
    ```
 
 3. **Monitoring**:
@@ -350,7 +451,7 @@ weighted avg       1.00      1.00      1.00        25
 
 ```python
 # Sử dụng inference.py
-python inference.py
+python scripts/inference/inference.py
 # Chọn option 1 và nhập đường dẫn ảnh
 ```
 
@@ -358,7 +459,7 @@ python inference.py
 
 ```python
 # Xử lý nhiều ảnh trong thư mục
-python inference.py
+python scripts/inference/inference.py
 # Chọn option 2 và nhập đường dẫn thư mục
 ```
 
@@ -366,7 +467,7 @@ python inference.py
 
 ```python
 # Nhận dạng real-time
-python inference.py
+python scripts/inference/inference.py
 # Chọn option 3
 # Nhấn 'q' để thoát
 ```
@@ -411,11 +512,17 @@ train_datagen = ImageDataGenerator(
 
 ### Lỗi "Không tìm thấy dataset"
 
-Đảm bảo đã chạy `prepare_dataset.py` trước khi train:
+Đảm bảo đã chạy script tạo dataset trước khi train:
 
 ```bash
-python prepare_dataset.py
+# Tạo dataset (tùy chọn)
+python scripts/data_preprocessing/prepare_dataset_main.py  # Menu để chọn
+# hoặc
+python scripts/data_preprocessing/prepare_dataset.py        # Dataset đơn giản
+python scripts/data_preprocessing/prepare_dataset_2.py      # Dataset với OpenCV
 ```
+
+**Lưu ý:** Cả 2 cách đều tạo folder `dataset`, nên không cần sửa `DATASET_DIR` trong `train_model.py`.
 
 ### Lỗi "Out of Memory"
 
@@ -438,7 +545,7 @@ Dự án này được phát hành dưới giấy phép MIT. Xem file `LICENSE` 
 
 ## 👤 Tác Giả
 
-- **Your Name** - [Your GitHub](https://github.com/your-username)
+- **PaTrickPham** - [My GitHub](https://github.com/IamPatricKKK)
 
 ## 🙏 Acknowledgments
 
@@ -452,5 +559,5 @@ Nếu có câu hỏi hoặc góp ý, vui lòng tạo Issue trên GitHub.
 
 ---
 
-**⭐ Nếu dự án hữu ích, hãy cho một star! ⭐**
+**⭐ Cảm ơn đã quan tâm đến dự án này! ⭐**
 

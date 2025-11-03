@@ -1,60 +1,68 @@
 """
-Script để xem thông tin và preview dataset
+Script to view dataset information and preview images
 """
 
 import os
+import sys
 import pandas as pd
 from PIL import Image
 import matplotlib.pyplot as plt
 import random
 
+# Adjust working directory to project root
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(script_dir))
+if os.getcwd() != project_root:
+    os.chdir(project_root)
+    sys.path.insert(0, project_root)
+
 DATASET_DIR = "dataset"
 
 
 def show_dataset_info():
-    """Hiển thị thông tin tổng quan về dataset"""
+    """Display dataset overview information"""
     print("=" * 60)
-    print("THONG TIN DATASET")
+    print("DATASET INFORMATION")
     print("=" * 60)
     
     if not os.path.exists(DATASET_DIR):
-        print(f"[ERROR] Thu muc {DATASET_DIR} khong ton tai")
+        print(f"[ERROR] Directory {DATASET_DIR} does not exist")
         return
     
-    # Đọc metadata
+    # Read metadata
     metadata_path = os.path.join(DATASET_DIR, "metadata.csv")
     if os.path.exists(metadata_path):
         df = pd.read_csv(metadata_path)
         
-        print(f"\nTong so anh: {len(df)}")
-        print("\nPhan bo theo class:")
+        print(f"\nTotal images: {len(df)}")
+        print("\nDistribution by class:")
         class_counts = df["class"].value_counts()
         for class_name, count in class_counts.items():
-            print(f"  - {class_name}: {count} anh")
+            print(f"  - {class_name}: {count} images")
         
-        print("\nPhan bo theo split:")
+        print("\nDistribution by split:")
         split_counts = df["split"].value_counts()
         for split_name, count in split_counts.items():
-            print(f"  - {split_name}: {count} anh")
+            print(f"  - {split_name}: {count} images")
         
-        print("\nChi tiet theo split va class:")
+        print("\nDetails by split and class:")
         print("-" * 40)
         stats = df.groupby(["split", "class"]).size().unstack(fill_value=0)
         print(stats)
     else:
-        print(f"[WARNING] Khong tim thay file metadata.csv")
+        print(f"[WARNING] metadata.csv file not found")
 
 
 def preview_images(split="train", num_samples=6):
-    """Xem preview một số ảnh từ dataset"""
-    print(f"\n[INFO] Dang xem {num_samples} anh ngau nhien tu {split}...")
+    """Preview some images from dataset"""
+    print(f"\n[INFO] Previewing {num_samples} random images from {split}...")
     
     split_dir = os.path.join(DATASET_DIR, split)
     if not os.path.exists(split_dir):
-        print(f"[ERROR] Khong tim thay thu muc {split_dir}")
+        print(f"[ERROR] Directory not found: {split_dir}")
         return
     
-    # Lấy ảnh từ mỗi class
+    # Get images from each class
     images = []
     labels = []
     
@@ -64,13 +72,13 @@ def preview_images(split="train", num_samples=6):
             files = [f for f in os.listdir(class_dir) 
                     if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp'))]
             if files:
-                # Lấy ngẫu nhiên một số ảnh
+                # Get random sample of images
                 sample_files = random.sample(files, min(num_samples // 2, len(files)))
                 for filename in sample_files:
                     images.append(os.path.join(class_dir, filename))
                     labels.append(class_name)
     
-    # Hiển thị ảnh
+    # Display images
     if images:
         fig, axes = plt.subplots(2, num_samples // 2, figsize=(12, 6))
         if num_samples == 2:
@@ -89,27 +97,27 @@ def preview_images(split="train", num_samples=6):
                 ax.set_title(label, fontsize=10)
                 ax.axis('off')
             except Exception as e:
-                print(f"[WARNING] Khong the doc anh {img_path}: {str(e)}")
+                print(f"[WARNING] Cannot read image {img_path}: {str(e)}")
         
         plt.tight_layout()
         plt.savefig("dataset_preview.png", dpi=150, bbox_inches='tight')
-        print("[OK] Da luu preview vao dataset_preview.png")
+        print("[OK] Saved preview to dataset_preview.png")
         plt.show()
     else:
-        print("[WARNING] Khong tim thay anh nao")
+        print("[WARNING] No images found")
 
 
 def main():
-    """Hàm main"""
+    """Main function"""
     show_dataset_info()
     
     try:
         import matplotlib.pyplot as plt
         preview_images(split="train", num_samples=6)
     except ImportError:
-        print("\n[INFO] Matplotlib khong duoc cai dat. Bo qua preview anh.")
+        print("\n[INFO] Matplotlib not installed. Skipping image preview.")
     except Exception as e:
-        print(f"\n[WARNING] Khong the hien thi preview: {str(e)}")
+        print(f"\n[WARNING] Cannot display preview: {str(e)}")
 
 
 if __name__ == "__main__":

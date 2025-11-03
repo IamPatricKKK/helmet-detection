@@ -1,26 +1,22 @@
-original_name,new_name,path,class,label,split
-z7180312971720_4c6397eab2be9030ce06a298d26b2a8b.jpg,no_helmet_test_0000.jpg,dataset\test\no_helmet\no_helmet_test_0000.jpg,no_helmet,0,test
-z7180732075050_eac94004d3da9db2d4f714553772da03.jpg,no_helmet_test_0001.jpg,dataset\test\no_helmet\no_helmet_test_0001.jpg,no_helmet,0,test
-images (13).jpg,no_helmet_test_0002.jpg,dataset\test\no_helmet\no_helmet_test_0002.jpg,no_helmet,0,test
-z7180312870332_70ee275cfc30f08f626ae3df10c38baf.jpg,no_helmet_test_0003.jpg,dataset\test\no_helmet\no_helmet_test_0003.jpg,no_helmet,0,test
-images (20).jpg,no_helmet_test_0004.jpg,dataset\test\no_helmet\no_helmet_test_0004.jpg,no_helmet,0,test
-z7180312968926_fa1fb328b69857a80c18ce5fda6e3e7e.jpg,no_helmet_test_0005.jpg,dataset\test\no_helmet\no_helmet_test_0005.jpg,no_helmet,0,test
-images (22).jpg,no_helmet_test_0006.jpg,dataset\test\no_helmet\no_helmet_test_0006.jpg,no_helmet,0,test
-images (27).jpg,no_helmet_test_0007.jpg,dataset\test\no_helmet\no_helmet_test_0007.jpg,no_helmet,0,test
-images (4).jpg,no_helmet_test_0008.jpg,dataset\test\no_helmet\no_helmet_test_0008.jpg,no_helmet,0,test
-images (7).jpg,no_helmet_test_0009.jpg,dataset\test\no_helmet\no_helmet_test_0009.jpg,no_helmet,0,test
-tải xuống (10).jpg,no_helmet_test_0010.jpg,dataset\test\no_helmet\no_helmet_test_0010.jpg,no_helmet,0,test
-images (12).jpg,no_helmet_test_0011.jpg,dataset\test\no_helmet\no_helmet_test_0011.jpg,no_helmet,0,test
-images (23).jpg,no_helmet_test_0012.jpg,dataset\test\no_helmet\no_helmet_test_0012.jpg,no_helmet,0,test
-z7180312881735_55b95d7525cafd4463e41875f90f2d16.jpg,with_helmet_test_0000.jpg,dataset\test\with_helmet\with_helmet_test_0000.jpg,with_helmet,1,test
-z7180312906278_0402118c07ed3d2b0ab28981d155317c.jpg,with_helmet_test_0001.jpg,dataset\test\with_helmet\with_helmet_test_0001.jpg,with_helmet,1,test
-z7180732083206_ce011052338e6be0492341b6c7bcb91a.jpg,with_helmet_test_0002.jpg,dataset\test\with_helmet\with_helmet_test_0002.jpg,with_helmet,1,test
-z7180312829126_3c62c443cff7170bdfa3b3829da75f91.jpg,with_helmet_test_0003.jpg,dataset\test\with_helmet\with_helmet_test_0003.jpg,with_helmet,1,test
-tải xuống (11).jpg,with_helmet_test_0004.jpg,dataset\test\with_helmet\with_helmet_test_0004.jpg,with_helmet,1,test
-tải xuống (17).jpg,with_helmet_test_0005.jpg,dataset\test\with_helmet\with_helmet_test_0005.jpg,with_helmet,1,test
-z7180312877621_97db5efc7f1e74c9d27e46ab4f27c134.jpg,with_helmet_test_0006.jpg,dataset\test\with_helmet\with_helmet_test_0006.jpg,with_helmet,1,test
-z7180312943391_c19f7b647650dcc1e3b8020d4d45720a.jpg,with_helmet_test_0007.jpg,dataset\test\with_helmet\with_helmet_test_0007.jpg,with_helmet,1,test
-images (7).jpg,with_helmet_test_0008.jpg,dataset\test\with_helmet\with_helmet_test_0008.jpg,with_helmet,1,test
-tải xuống (14).jpg,with_helmet_test_0009.jpg,dataset\test\with_helmet\with_helmet_test_0009.jpg,with_helmet,1,test
-z7180732083739_a9493d11ee1ebd75fa61c96f0f0f7b1a.jpg,with_helmet_test_0010.jpg,dataset\test\with_helmet\with_helmet_test_0010.jpg,with_helmet,1,test
-images (8).jpg,with_helmet_test_0011.jpg,dataset\test\with_helmet\with_helmet_test_0011.jpg,with_helmet,1,test
+original_name,new_name,path,class,label,split,has_face
+images (19).jpg,no_helmet_test_0000.jpg,dataset\test\no_helmet\no_helmet_test_0000.jpg,no_helmet,0,test,True
+images (18).jpg,no_helmet_test_0001.jpg,dataset\test\no_helmet\no_helmet_test_0001.jpg,no_helmet,0,test,True
+images (5).jpg,no_helmet_test_0002.jpg,dataset\test\no_helmet\no_helmet_test_0002.jpg,no_helmet,0,test,True
+z7180312881105_c70fd86706aa39bc859bd315f03eb75d.jpg,no_helmet_test_0003.jpg,dataset\test\no_helmet\no_helmet_test_0003.jpg,no_helmet,0,test,True
+z7180312968926_fa1fb328b69857a80c18ce5fda6e3e7e.jpg,no_helmet_test_0004.jpg,dataset\test\no_helmet\no_helmet_test_0004.jpg,no_helmet,0,test,True
+z7180732078801_c71436ddfb7ed4832f2691f88608fb2a.jpg,no_helmet_test_0005.jpg,dataset\test\no_helmet\no_helmet_test_0005.jpg,no_helmet,0,test,True
+z7180312895324_d609e62ee8aeb538504338d32acb640a.jpg,no_helmet_test_0006.jpg,dataset\test\no_helmet\no_helmet_test_0006.jpg,no_helmet,0,test,True
+images (3).jpg,no_helmet_test_0007.jpg,dataset\test\no_helmet\no_helmet_test_0007.jpg,no_helmet,0,test,True
+z7180732068680_23441a1325bad43ed1c575e599618bc9.jpg,no_helmet_test_0008.jpg,dataset\test\no_helmet\no_helmet_test_0008.jpg,no_helmet,0,test,True
+z7180732069754_6584a6cef951986fa8990909186a141b.jpg,no_helmet_test_0009.jpg,dataset\test\no_helmet\no_helmet_test_0009.jpg,no_helmet,0,test,True
+z7180312844119_e9e61faf4cfb3da6d95c57c9b6eca7f2.jpg,no_helmet_test_0010.jpg,dataset\test\no_helmet\no_helmet_test_0010.jpg,no_helmet,0,test,True
+images (10).jpg,with_helmet_test_0000.jpg,dataset\test\with_helmet\with_helmet_test_0000.jpg,with_helmet,1,test,True
+z7180732078985_ee4289b55fa9d66b0d112f5955fa3e1b.jpg,with_helmet_test_0001.jpg,dataset\test\with_helmet\with_helmet_test_0001.jpg,with_helmet,1,test,True
+z7180312962563_4e8c7e61957df733b782f58cdd95843d.jpg,with_helmet_test_0002.jpg,dataset\test\with_helmet\with_helmet_test_0002.jpg,with_helmet,1,test,True
+z7180312943391_c19f7b647650dcc1e3b8020d4d45720a.jpg,with_helmet_test_0003.jpg,dataset\test\with_helmet\with_helmet_test_0003.jpg,with_helmet,1,test,True
+z7180732115498_e340bfec90cafb8f7a550036feefee3d.jpg,with_helmet_test_0004.jpg,dataset\test\with_helmet\with_helmet_test_0004.jpg,with_helmet,1,test,False
+images (20).jpg,with_helmet_test_0005.jpg,dataset\test\with_helmet\with_helmet_test_0005.jpg,with_helmet,1,test,True
+top-7-mu-bao-hiem-co-kinh-Falcon-Helmets.jpg,with_helmet_test_0006.jpg,dataset\test\with_helmet\with_helmet_test_0006.jpg,with_helmet,1,test,False
+images.jpg,with_helmet_test_0007.jpg,dataset\test\with_helmet\with_helmet_test_0007.jpg,with_helmet,1,test,False
+z7180312941296_9bab796842f5a4a9b2b8a0140fd423ee.jpg,with_helmet_test_0008.jpg,dataset\test\with_helmet\with_helmet_test_0008.jpg,with_helmet,1,test,True
+images (23).jpg,with_helmet_test_0009.jpg,dataset\test\with_helmet\with_helmet_test_0009.jpg,with_helmet,1,test,False

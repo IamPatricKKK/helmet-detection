@@ -1,9 +1,10 @@
 """
-Script huấn luyện model nhận dạng mũ bảo hiểm
-Sử dụng Transfer Learning với MobileNetV2
+Training script for helmet detection model
+Uses Transfer Learning with MobileNetV2
 """
 
 import os
+import sys
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
@@ -15,7 +16,14 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
 import seaborn as sns
 
-# Cấu hình
+# Adjust working directory to project root
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(os.path.dirname(script_dir))
+if os.getcwd() != project_root:
+    os.chdir(project_root)
+    sys.path.insert(0, project_root)
+
+# Configuration
 DATASET_DIR = "dataset"
 MODEL_DIR = "models"
 IMG_SIZE = (224, 224)
@@ -30,9 +38,9 @@ CLASS_LABELS = {"no_helmet": 0, "with_helmet": 1}
 
 
 def create_data_generators():
-    """Tạo data generators với data augmentation cho train và validation"""
+    """Create data generators with data augmentation for train and validation"""
     
-    # Data augmentation cho training
+    # Data augmentation for training
     train_datagen = ImageDataGenerator(
         rescale=1.0/255.0,
         rotation_range=20,
@@ -44,7 +52,7 @@ def create_data_generators():
         fill_mode='nearest'
     )
     
-    # Chỉ rescale cho validation và test (không augmentation)
+    # Only rescale for validation and test (no augmentation)
     val_test_datagen = ImageDataGenerator(rescale=1.0/255.0)
     
     # Train generator
@@ -84,21 +92,21 @@ def create_data_generators():
 
 
 def create_model():
-    """Tạo model sử dụng Transfer Learning với MobileNetV2"""
+    """Create model using Transfer Learning with MobileNetV2"""
     
-    print("[INFO] Dang tao model voi MobileNetV2...")
+    print("[INFO] Creating model with MobileNetV2...")
     
-    # Load MobileNetV2 pre-trained weights (không bao gồm top layer)
+    # Load MobileNetV2 pre-trained weights (excluding top layer)
     base_model = MobileNetV2(
         input_shape=(IMG_SIZE[0], IMG_SIZE[1], 3),
         include_top=False,
         weights='imagenet'
     )
     
-    # Đóng băng các layer của base model (chỉ train top layers trước)
+    # Freeze base model layers (train only top layers first)
     base_model.trainable = False
     
-    # Tạo model mới
+    # Create new model
     model = keras.Sequential([
         base_model,
         layers.GlobalAveragePooling2D(),
@@ -115,19 +123,19 @@ def create_model():
         metrics=['accuracy']
     )
     
-    print("[OK] Model da duoc tao thanh cong!")
+    print("[OK] Model created successfully!")
     return model
 
 
 def train_model(model, train_generator, val_generator):
-    """Huấn luyện model"""
+    """Train model"""
     
-    # Tạo thư mục models nếu chưa có
+    # Create models directory if it doesn't exist
     os.makedirs(MODEL_DIR, exist_ok=True)
     
     # Callbacks
     callbacks = [
-        # Lưu model tốt nhất
+        # Save best model
         ModelCheckpoint(
             filepath=os.path.join(MODEL_DIR, "best_model.h5"),
             monitor='val_accuracy',
@@ -138,11 +146,11 @@ def train_model(model, train_generator, val_generator):
         # Early stopping
         EarlyStopping(
             monitor='val_accuracy',
-            patience=20,  # Tăng patience lên 20 để train lâu hơn
+            patience=20,  # Increase patience to 20 for longer training
             restore_best_weights=True,
             verbose=1
         ),
-        # Giảm learning rate
+        # Reduce learning rate
         ReduceLROnPlateau(
             monitor='val_loss',
             factor=0.5,
@@ -152,7 +160,7 @@ def train_model(model, train_generator, val_generator):
         )
     ]
     
-    print("[INFO] Bat dau training...")
+    print("[INFO] Starting training...")
     print("=" * 60)
     
     # Training
@@ -166,17 +174,17 @@ def train_model(model, train_generator, val_generator):
         verbose=1
     )
     
-    # Lưu model cuối cùng
-    model.save(os.path.join(MODEL_DIR, "final_model.h5"))
-    print(f"\n[OK] Model da duoc luu tai {MODEL_DIR}")
+    # Save final model (optional - comment if not needed)
+    # model.save(os.path.join(MODEL_DIR, "final_model.h5"))
+    print(f"\n[OK] Model saved at {MODEL_DIR}")
     
     return history
 
 
 def plot_training_history(history):
-    """Vẽ đồ thị quá trình training"""
+    """Plot training history"""
     
-    print("[INFO] Dang ve do thi training...")
+    print("[INFO] Plotting training history...")
     
     fig, axes = plt.subplots(1, 2, figsize=(12, 4))
     
@@ -200,14 +208,15 @@ def plot_training_history(history):
     
     plt.tight_layout()
     plt.savefig(os.path.join(MODEL_DIR, "training_history.png"), dpi=150)
-    print(f"[OK] Da luu do thi tai {os.path.join(MODEL_DIR, 'training_history.png')}")
-    plt.show()
+    print(f"[OK] Saved plot at {os.path.join(MODEL_DIR, 'training_history.png')}")
+    # Uncomment the line below if you want to display the plot (requires GUI)
+    # plt.show()
 
 
 def evaluate_model(model, test_generator):
-    """Đánh giá model trên test set"""
+    """Evaluate model on test set"""
     
-    print("\n[INFO] Dang danh gia model tren test set...")
+    print("\n[INFO] Evaluating model on test set...")
     
     # Evaluate
     test_loss, test_accuracy = model.evaluate(test_generator, verbose=1)
@@ -245,14 +254,15 @@ def evaluate_model(model, test_generator):
     plt.xlabel('Predicted Label')
     plt.tight_layout()
     plt.savefig(os.path.join(MODEL_DIR, "confusion_matrix.png"), dpi=150)
-    print(f"[OK] Da luu confusion matrix tai {os.path.join(MODEL_DIR, 'confusion_matrix.png')}")
-    plt.show()
+    print(f"[OK] Saved confusion matrix at {os.path.join(MODEL_DIR, 'confusion_matrix.png')}")
+    # Uncomment the line below if you want to display confusion matrix (requires GUI)
+    # plt.show()
     
     return test_accuracy
 
 
 def print_model_summary(model):
-    """In tóm tắt model"""
+    """Print model summary"""
     print("\n" + "=" * 60)
     print("[MODEL SUMMARY]")
     print("=" * 60)
@@ -261,53 +271,53 @@ def print_model_summary(model):
 
 
 def main():
-    """Hàm main"""
+    """Main function"""
     
     print("=" * 60)
-    print("TRAINING MODEL NHAN DIEN MU BAO HIEM")
+    print("TRAINING MODEL - HELMET DETECTION")
     print("=" * 60)
     
-    # Kiểm tra dataset
+    # Check dataset
     if not os.path.exists(DATASET_DIR):
-        print(f"[ERROR] Khong tim thay thu muc dataset: {DATASET_DIR}")
-        print("[INFO] Hay chay prepare_dataset.py truoc!")
+        print(f"[ERROR] Dataset directory not found: {DATASET_DIR}")
+        print("[INFO] Please run prepare_dataset.py first!")
         return
     
-    # Tạo data generators
-    print("\n[STEP 1] Tao data generators...")
+    # Create data generators
+    print("\n[STEP 1] Creating data generators...")
     train_generator, val_generator, test_generator = create_data_generators()
     
-    print(f"[OK] Train: {train_generator.samples} anh, {len(train_generator.class_indices)} classes")
-    print(f"[OK] Val: {val_generator.samples} anh")
-    print(f"[OK] Test: {test_generator.samples} anh")
+    print(f"[OK] Train: {train_generator.samples} images, {len(train_generator.class_indices)} classes")
+    print(f"[OK] Val: {val_generator.samples} images")
+    print(f"[OK] Test: {test_generator.samples} images")
     print(f"[OK] Classes: {train_generator.class_indices}")
     
-    # Tạo model
-    print("\n[STEP 2] Tao model...")
+    # Create model
+    print("\n[STEP 2] Creating model...")
     model = create_model()
     print_model_summary(model)
     
     # Training
-    print("\n[STEP 3] Bat dau training...")
+    print("\n[STEP 3] Starting training...")
     history = train_model(model, train_generator, val_generator)
     
-    # Vẽ đồ thị training
-    print("\n[STEP 4] Ve do thi training...")
+    # Plot training history
+    print("\n[STEP 4] Plotting training history...")
     plot_training_history(history)
     
-    # Đánh giá trên test set
-    print("\n[STEP 5] Danh gia tren test set...")
+    # Evaluate on test set
+    print("\n[STEP 5] Evaluating on test set...")
     test_accuracy = evaluate_model(model, test_generator)
     
     print("\n" + "=" * 60)
-    print("[COMPLETED] Training hoan thanh!")
+    print("[COMPLETED] Training completed!")
     print(f"[FINAL] Test Accuracy: {test_accuracy*100:.2f}%")
-    print(f"[FILES] Model files da duoc luu tai thu muc: {MODEL_DIR}")
+    print(f"[FILES] Model files saved at directory: {MODEL_DIR}")
     print("=" * 60)
 
 
 if __name__ == "__main__":
-    # Set random seeds cho reproducibility
+    # Set random seeds for reproducibility
     np.random.seed(42)
     tf.random.set_seed(42)
     
