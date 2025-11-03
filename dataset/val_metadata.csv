@@ -1,0 +1,22 @@
+original_name,new_name,path,class,label,split
+tải xuống (1).jpg,no_helmet_val_0000.jpg,dataset\val\no_helmet\no_helmet_val_0000.jpg,no_helmet,0,val
+tải xuống (7).jpg,no_helmet_val_0001.jpg,dataset\val\no_helmet\no_helmet_val_0001.jpg,no_helmet,0,val
+tải xuống (4).jpg,no_helmet_val_0002.jpg,dataset\val\no_helmet\no_helmet_val_0002.jpg,no_helmet,0,val
+tải xuống (8).jpg,no_helmet_val_0003.jpg,dataset\val\no_helmet\no_helmet_val_0003.jpg,no_helmet,0,val
+images (21).jpg,no_helmet_val_0004.jpg,dataset\val\no_helmet\no_helmet_val_0004.jpg,no_helmet,0,val
+z7180732069754_6584a6cef951986fa8990909186a141b.jpg,no_helmet_val_0005.jpg,dataset\val\no_helmet\no_helmet_val_0005.jpg,no_helmet,0,val
+images (10).jpg,no_helmet_val_0006.jpg,dataset\val\no_helmet\no_helmet_val_0006.jpg,no_helmet,0,val
+tải xuống (13).jpg,no_helmet_val_0007.jpg,dataset\val\no_helmet\no_helmet_val_0007.jpg,no_helmet,0,val
+images (8).jpg,no_helmet_val_0008.jpg,dataset\val\no_helmet\no_helmet_val_0008.jpg,no_helmet,0,val
+images (5).jpg,no_helmet_val_0009.jpg,dataset\val\no_helmet\no_helmet_val_0009.jpg,no_helmet,0,val
+images (36).jpg,no_helmet_val_0010.jpg,dataset\val\no_helmet\no_helmet_val_0010.jpg,no_helmet,0,val
+images (13).jpg,with_helmet_val_0000.jpg,dataset\val\with_helmet\with_helmet_val_0000.jpg,with_helmet,1,val
+images (25).jpg,with_helmet_val_0001.jpg,dataset\val\with_helmet\with_helmet_val_0001.jpg,with_helmet,1,val
+top-7-mu-bao-hiem-co-kinh-Falcon-Helmets.jpg,with_helmet_val_0002.jpg,dataset\val\with_helmet\with_helmet_val_0002.jpg,with_helmet,1,val
+z7180312958201_31f2465427ac8ca2cbf66857970eb7d6.jpg,with_helmet_val_0003.jpg,dataset\val\with_helmet\with_helmet_val_0003.jpg,with_helmet,1,val
+z7180312893387_33718917bec88f059111ef84b5186e27.jpg,with_helmet_val_0004.jpg,dataset\val\with_helmet\with_helmet_val_0004.jpg,with_helmet,1,val
+images (10).jpg,with_helmet_val_0005.jpg,dataset\val\with_helmet\with_helmet_val_0005.jpg,with_helmet,1,val
+z7180312904457_bb7a5687a7e59e55a3a3331ed1e070de.jpg,with_helmet_val_0006.jpg,dataset\val\with_helmet\with_helmet_val_0006.jpg,with_helmet,1,val
+images (22).jpg,with_helmet_val_0007.jpg,dataset\val\with_helmet\with_helmet_val_0007.jpg,with_helmet,1,val
+images (12).jpg,with_helmet_val_0008.jpg,dataset\val\with_helmet\with_helmet_val_0008.jpg,with_helmet,1,val
+z7180732081210_0ee01bbb49ea9e6f9d2f8acd2600c978.jpg,with_helmet_val_0009.jpg,dataset\val\with_helmet\with_helmet_val_0009.jpg,with_helmet,1,val
